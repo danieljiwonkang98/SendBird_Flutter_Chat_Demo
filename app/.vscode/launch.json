@@ -1,0 +1,18 @@
+{
+    "version": "0.1.0",
+    "configurations": [
+      {
+        "name": "[Dev] SendBird Chat Demo",
+        "request": "launch",
+        "type": "dart",
+        "args": ["-t", "lib/main_dev.dart"]
+      },
+      {
+        "name": "[Prod] SendBird Chat Demo",
+        "request": "launch",
+        "type": "dart",
+        "args": ["-t", "lib/main_prod.dart"]
+      }
+    ]
+  }
+  
