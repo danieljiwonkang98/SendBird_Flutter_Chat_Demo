@@ -2,10 +2,18 @@ import 'package:get/get.dart';
 import 'package:sendbird_sdk/core/models/user.dart';
 import 'package:sendbird_sdk/sdk/sendbird_sdk_api.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class BaseAuth {
+  //Checks if Logged In
+  Future<bool> checkLogin();
   // intialize
   void initialize();
+  // sign in
+  // ? throws error when sign in Unsuccessful
+  void signIn(String userId);
+  // logout User
+  void signOut();
   // disconnect from application
   void disconnect();
   // login user
@@ -21,15 +29,63 @@ abstract class BaseAuth {
 class AuthenticationController extends GetxController implements BaseAuth {
   //* Initialize Sendbird Sdk
   final _sendbird = SendbirdSdk(appId: dotenv.env["APP_ID_DEV"]);
-  bool _isSigned = false;
+  late bool _isSigned;
+  late SharedPreferences _sharedPreferences;
+  late User _user;
 
+  // Check if user is logged in
   @override
-  void initialize() {
-    // TODO: implement initialize
+  Future<bool> checkLogin() async {
+    _sharedPreferences = await SharedPreferences.getInstance();
+
+    String? _userId = _sharedPreferences.getString("userId");
+
+    try {
+      // If UserId Exists Login
+      if (_userId != null || _userId != "") {
+        _isSigned = true;
+        _sendbird.connect(_userId!);
+      } else {
+        _isSigned = false;
+      }
+    } catch (e) {
+      //TODO Create Logger
+      print(e);
+    }
+
+    // Update Value in Get X Controller
+    update();
+    return _userId != null;
   }
 
   @override
-  // TODO: implement isSigned
+  void initialize() {
+    //TODO login with accesstoken
+    checkLogin();
+  }
+
+  @override
+  void signIn(String userId) async {
+    try {
+      _user = await _sendbird.connect(userId);
+      _sharedPreferences.setString("userId", userId);
+      //TODO Create Logger
+      print("Sign In Successful");
+    } catch (e) {
+      //TODO Create Logger
+      //TODO Create Error
+      print("Sign In Unsuccessful");
+      throw e;
+    }
+  }
+
+  // Log Out User
+  @override
+  void signOut() {
+    _sharedPreferences.setString("userId", "");
+  }
+
+  @override
   bool get isSigned => _isSigned;
 
   @override

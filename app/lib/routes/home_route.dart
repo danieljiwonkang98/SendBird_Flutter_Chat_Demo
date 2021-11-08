@@ -10,6 +10,6 @@ class HomeRoute extends StatefulWidget {
 class _HomeRouteState extends State<HomeRoute> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const Text("Home Route");
   }
 }

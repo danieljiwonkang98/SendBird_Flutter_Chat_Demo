@@ -19,27 +19,27 @@ class _RootRouteState extends State<RootRoute> {
   late BaseAuth _authentication;
 
   @override
-  void initState() {
+  void didChangeDependencies() {
     _authStatus = AuthStatus.notSignedIn;
     _authentication = Get.find<AuthenticationController>();
-    _authentication.initialize();
 
-    _authStatus = _authentication.isSigned == true
-        ? AuthStatus.signedIn
-        : AuthStatus.notSignedIn;
+    _authentication.checkLogin().then((isLoggedIn) => {
+          _authStatus =
+              isLoggedIn == true ? AuthStatus.signedIn : AuthStatus.notSignedIn,
+        });
 
     //! REMOVE
     print(_authStatus);
-    super.initState();
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     switch (_authStatus) {
       case AuthStatus.signedIn:
-        return const LoginRoute();
-      case AuthStatus.notSignedIn:
         return const HomeRoute();
+      case AuthStatus.notSignedIn:
+        return const LoginRoute();
     }
   }
 }

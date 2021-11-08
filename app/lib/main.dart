@@ -15,7 +15,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: "SendBird Chat Demo",
-      initialRoute: "RootRoute",
+      initialRoute: "/RootRoute",
       getPages: routes,
       initialBinding: RootBinding(),
     );

@@ -4,7 +4,7 @@ import 'components/root.dart';
 
 final List<GetPage> routes = [
   GetPage(
-      name: "RootRoute",
+      name: "/RootRoute",
       page: () => const RootRoute(),
       binding: RootBinding(),
       transition: Transition.noTransition),
