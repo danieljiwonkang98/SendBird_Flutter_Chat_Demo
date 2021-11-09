@@ -18,18 +18,35 @@ class _RootRouteState extends State<RootRoute> {
   late AuthStatus _authStatus;
   late BaseAuth _authentication;
 
+  void _signInCallBack() {
+    setState(() {
+      _authStatus = AuthStatus.signedIn;
+    });
+  }
+
+  void _signOutCallBack() {
+    setState(() {
+      _authStatus = AuthStatus.notSignedIn;
+    });
+  }
+
   @override
-  void didChangeDependencies() {
+  void initState() {
     _authStatus = AuthStatus.notSignedIn;
     _authentication = Get.find<AuthenticationController>();
 
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
     _authentication.checkLogin().then((isLoggedIn) => {
           _authStatus =
               isLoggedIn == true ? AuthStatus.signedIn : AuthStatus.notSignedIn,
+          print(_authStatus),
+          setState(() {}),
         });
 
-    //! REMOVE
-    print(_authStatus);
     super.didChangeDependencies();
   }
 
@@ -37,9 +54,13 @@ class _RootRouteState extends State<RootRoute> {
   Widget build(BuildContext context) {
     switch (_authStatus) {
       case AuthStatus.signedIn:
-        return const HomeRoute();
+        return HomeRoute(
+          onSignedOut: _signOutCallBack,
+        );
       case AuthStatus.notSignedIn:
-        return const LoginRoute();
+        return LoginRoute(
+          onSignedIn: _signInCallBack,
+        );
     }
   }
 }

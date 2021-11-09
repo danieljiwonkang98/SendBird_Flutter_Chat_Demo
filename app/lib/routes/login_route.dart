@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoginRoute extends StatefulWidget {
-  const LoginRoute({Key? key}) : super(key: key);
+  final VoidCallback onSignedIn;
+  const LoginRoute({Key? key, required this.onSignedIn}) : super(key: key);
 
   @override
   _LoginRouteState createState() => _LoginRouteState();
@@ -39,6 +40,8 @@ class _LoginRouteState extends State<LoginRoute> {
           child: Column(
             children: [
               const Spacer(),
+              Image.asset('assets/img/SendBirdLogo.png',
+                  fit: BoxFit.cover, height: 350),
               InputField(
                 textEditingController: _userIdController,
                 paddingHorizontal: 80,
@@ -53,7 +56,11 @@ class _LoginRouteState extends State<LoginRoute> {
                 onTap: () {
                   try {
                     _auth.signIn(_userIdController.text);
-                    Get.back();
+                    print(_auth.user);
+
+                    //GET OFF AND REDIRECT TO ROOT PAGE
+                    widget.onSignedIn();
+                    Get.offAndToNamed("/RootRoute");
                   } catch (e) {
                     // _auth.signIn throws error when loggin unsuccessful
 

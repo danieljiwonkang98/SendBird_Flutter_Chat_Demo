@@ -1,3 +1,4 @@
+import 'package:app/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'bindings/root_binding.dart';
@@ -14,6 +15,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      theme: theme,
       title: "SendBird Chat Demo",
       initialRoute: "/RootRoute",
       getPages: routes,
