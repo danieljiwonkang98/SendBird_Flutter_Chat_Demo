@@ -24,12 +24,6 @@ class _RootRouteState extends State<RootRoute> {
     });
   }
 
-  void _signOutCallBack() {
-    setState(() {
-      _authStatus = AuthStatus.notSignedIn;
-    });
-  }
-
   @override
   void initState() {
     _authStatus = AuthStatus.notSignedIn;
@@ -54,9 +48,7 @@ class _RootRouteState extends State<RootRoute> {
   Widget build(BuildContext context) {
     switch (_authStatus) {
       case AuthStatus.signedIn:
-        return HomeRoute(
-          onSignedOut: _signOutCallBack,
-        );
+        return const HomeRoute();
       case AuthStatus.notSignedIn:
         return LoginRoute(
           onSignedIn: _signInCallBack,

@@ -1,11 +1,11 @@
 import 'package:app/components/button.dart';
 import 'package:app/controllers/authentication_controller.dart';
+import 'package:app/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeRoute extends StatefulWidget {
-  final VoidCallback onSignedOut;
-  const HomeRoute({Key? key, required this.onSignedOut}) : super(key: key);
+  const HomeRoute({Key? key}) : super(key: key);
 
   @override
   _HomeRouteState createState() => _HomeRouteState();
@@ -26,26 +26,27 @@ class _HomeRouteState extends State<HomeRoute> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Home"),
+        actions: [
+          GestureDetector(
+            onTap: () => Get.toNamed("ProfileRoute"),
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              //TODO Include Profile Img Icon
+              child: Icon(Icons.person),
+            ),
+          ),
+        ],
       ),
       body: Column(
         children: [
           //TODO Include ListView
-          Button(
-            textLabel: "Log Out",
-            paddingHorizontal: 50,
-            onTap: () {
-              try {
-                _authentication.signOut();
-                //GET OFF AND REDIRECT TO ROOT PAGE
-                widget.onSignedOut();
-                Get.offAndToNamed("/RootRoute");
-              } catch (e) {
-                // _auth.signIn throws error when loggin unsuccessful
-
-              }
-            },
-          ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
+        backgroundColor: ThemeColors.primary,
+        splashColor: ThemeColors.primaryLight,
       ),
     );
   }

@@ -1,4 +1,4 @@
-import 'package:app/theme.dart';
+import 'package:app/themes/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'bindings/root_binding.dart';

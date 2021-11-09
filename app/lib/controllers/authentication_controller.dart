@@ -123,6 +123,15 @@ class AuthenticationController extends GetxController implements BaseAuth {
   // Updates User's Nickname and Profile Image
   @override
   void updateProfile({String? nickName, String? imgUrl}) {
-    // TODO: implement updateProfile
+    //TODO Include Profile ImgURL & ImgFile
+    try {
+      _sendbird.updateCurrentUserInfo(
+        nickname: nickName,
+      );
+      print("Profile Updated!");
+    } catch (e) {
+      //TODO Create Logger
+      print(e);
+    }
   }
 }

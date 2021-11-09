@@ -1,3 +1,4 @@
+import 'package:app/themes/colors.dart';
 import 'package:flutter/material.dart';
 
 class Button extends StatelessWidget {
@@ -17,7 +18,7 @@ class Button extends StatelessWidget {
       this.onTap,
       this.height = 52,
       this.width = double.infinity,
-      this.primaryBackgroundColor = Colors.deepPurple,
+      this.primaryBackgroundColor = ThemeColors.primary,
       this.textColor = Colors.white,
       this.borderRadius = 26,
       this.paddingHorizontal = 20,

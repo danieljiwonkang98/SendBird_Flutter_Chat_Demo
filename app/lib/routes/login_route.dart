@@ -1,6 +1,7 @@
 import 'package:app/components/button.dart';
 import 'package:app/components/inputfield.dart';
 import 'package:app/controllers/authentication_controller.dart';
+import 'package:app/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -43,6 +44,7 @@ class _LoginRouteState extends State<LoginRoute> {
               Image.asset('assets/img/SendBirdLogo.png',
                   fit: BoxFit.cover, height: 350),
               InputField(
+                label: "User ID",
                 textEditingController: _userIdController,
                 paddingHorizontal: 80,
               ),
@@ -55,12 +57,22 @@ class _LoginRouteState extends State<LoginRoute> {
                 paddingHorizontal: 50,
                 onTap: () {
                   try {
-                    _auth.signIn(_userIdController.text);
-                    print(_auth.user);
+                    FocusScope.of(context).unfocus();
+                    if (_userIdController.text != "") {
+                      _auth.signIn(_userIdController.text);
+                      print(_auth.user);
 
-                    //GET OFF AND REDIRECT TO ROOT PAGE
-                    widget.onSignedIn();
-                    Get.offAndToNamed("/RootRoute");
+                      //GET OFF AND REDIRECT TO ROOT PAGE
+                      widget.onSignedIn();
+                      Get.offAndToNamed("/RootRoute");
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          backgroundColor: ThemeColors.primary,
+                          content: Text('Please Enter User ID!'),
+                        ),
+                      );
+                    }
                   } catch (e) {
                     // _auth.signIn throws error when loggin unsuccessful
 
