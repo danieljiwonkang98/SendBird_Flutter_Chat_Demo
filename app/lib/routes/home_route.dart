@@ -26,10 +26,19 @@ class _HomeRouteState extends State<HomeRoute> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Home"),
+        actions: [
+          GestureDetector(
+            child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                //TODO Include Profile Img Icon
+                child: Icon(Icons.person)),
+          ),
+        ],
       ),
       body: Column(
         children: [
           //TODO Include ListView
+          const Spacer(),
           Button(
             textLabel: "Log Out",
             paddingHorizontal: 50,
@@ -45,7 +54,14 @@ class _HomeRouteState extends State<HomeRoute> {
               }
             },
           ),
+          const SizedBox(height: 150)
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
+        backgroundColor: Colors.deepPurple,
+        splashColor: Colors.deepPurple[200],
       ),
     );
   }
