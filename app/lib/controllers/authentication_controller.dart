@@ -30,23 +30,24 @@ class AuthenticationController extends GetxController implements BaseAuth {
   //* Initialize Sendbird Sdk
   final _sendbird = SendbirdSdk(appId: dotenv.env["APP_ID_DEV"]);
   late bool _isSigned;
-  late SharedPreferences _sharedPreferences;
   late User _user;
+  //TODO Include SharedPreference HERE
 
   // Check if user is logged in
   @override
   Future<bool> checkLogin() async {
-    _sharedPreferences = await SharedPreferences.getInstance();
+    SharedPreferences _sharedPreferences =
+        await SharedPreferences.getInstance();
 
     String? _userId = _sharedPreferences.getString("userId");
 
     try {
       // If UserId Exists Login
-      if (_userId != null || _userId != "") {
-        _isSigned = true;
-        _sendbird.connect(_userId!);
-      } else {
+      if (_userId == null || _userId == "") {
         _isSigned = false;
+      } else {
+        _isSigned = true;
+        _sendbird.connect(_userId);
       }
     } catch (e) {
       //TODO Create Logger
@@ -55,7 +56,7 @@ class AuthenticationController extends GetxController implements BaseAuth {
 
     // Update Value in Get X Controller
     update();
-    return _userId != null;
+    return _isSigned;
   }
 
   @override
@@ -67,8 +68,11 @@ class AuthenticationController extends GetxController implements BaseAuth {
   @override
   void signIn(String userId) async {
     try {
-      _user = await _sendbird.connect(userId);
+      SharedPreferences _sharedPreferences =
+          await SharedPreferences.getInstance();
       _sharedPreferences.setString("userId", userId);
+      _user = await _sendbird.connect(userId);
+
       //TODO Create Logger
       print("Sign In Successful");
     } catch (e) {
@@ -81,8 +85,11 @@ class AuthenticationController extends GetxController implements BaseAuth {
 
   // Log Out User
   @override
-  void signOut() {
+  void signOut() async {
+    SharedPreferences _sharedPreferences =
+        await SharedPreferences.getInstance();
     _sharedPreferences.setString("userId", "");
+    update();
   }
 
   @override
