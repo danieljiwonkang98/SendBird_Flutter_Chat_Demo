@@ -20,6 +20,7 @@ class _MyAppState extends State<MyApp> {
       initialRoute: "/RootRoute",
       getPages: routes,
       initialBinding: RootBinding(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
