@@ -1,8 +1,10 @@
+import 'package:app/themes/colors.dart';
 import 'package:flutter/material.dart';
 
 class InputField extends StatefulWidget {
   final TextEditingController textEditingController;
   final String? label;
+  final String? hintText;
   final double? height;
   final double? width;
   final double paddingHorizontal;
@@ -14,6 +16,7 @@ class InputField extends StatefulWidget {
     this.height,
     this.width = double.infinity,
     this.paddingHorizontal = 20,
+    this.hintText,
   }) : super(key: key);
 
   @override
@@ -29,11 +32,18 @@ class _InputFieldState extends State<InputField> {
         height: widget.height,
         width: widget.width,
         child: TextField(
+          style: const TextStyle(color: ThemeColors.primaryLight),
           controller: widget.textEditingController,
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: "User ID",
-          ),
+          decoration: InputDecoration(
+              focusedBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: ThemeColors.primary)),
+              enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: ThemeColors.primaryLight),
+              ),
+              hintText: widget.hintText,
+              hintStyle: const TextStyle(color: ThemeColors.primaryLight),
+              labelText: widget.label,
+              labelStyle: const TextStyle(color: ThemeColors.primaryLight)),
         ),
       ),
     );
