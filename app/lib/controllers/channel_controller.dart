@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import 'package:sendbird_sdk/sendbird_sdk.dart';
 
 abstract class BaseChannel {
+  // Get Channel Lists
+  // TODO
   // Creates Group Channel
   void createGroupChannel(
       {required List<String> userIds, required List<String> operatorUserIds});

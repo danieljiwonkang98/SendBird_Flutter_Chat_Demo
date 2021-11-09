@@ -18,7 +18,6 @@ class _HomeRouteState extends State<HomeRoute> {
   void initState() {
     _authentication = Get.find<AuthenticationController>();
     //TODO Get List of Channels
-
     super.initState();
   }
 
