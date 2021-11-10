@@ -9,7 +9,7 @@ abstract class BaseChannel {
       {required List<String> userIds, required List<String> operatorUserIds});
 }
 
-class AuthenticationController extends GetxController implements BaseChannel {
+class ChannelController extends GetxController implements BaseChannel {
   @override
   Future<void> createGroupChannel(
       {required List<String> userIds,
@@ -19,9 +19,11 @@ class AuthenticationController extends GetxController implements BaseChannel {
         ..userIds = userIds
         ..operatorUserIds = operatorUserIds;
       final channel = await GroupChannel.createChannel(params);
+      print("Channel Create Successful!");
       // Now you can work with the channel object.
     } catch (e) {
-      // Handle error.
+      //TODO Create Logger
+      print(e);
     }
   }
 }

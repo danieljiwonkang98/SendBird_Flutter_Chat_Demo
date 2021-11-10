@@ -1,4 +1,3 @@
-import 'package:app/components/button.dart';
 import 'package:app/controllers/authentication_controller.dart';
 import 'package:app/themes/colors.dart';
 import 'package:flutter/material.dart';
@@ -40,10 +39,11 @@ class _HomeRouteState extends State<HomeRoute> {
       body: Column(
         children: [
           //TODO Include ListView
+          //TODO Include FutureBuilder
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => Get.toNamed("/CreateChannelRoute"),
         child: const Icon(Icons.add),
         backgroundColor: ThemeColors.primary,
         splashColor: ThemeColors.primaryLight,

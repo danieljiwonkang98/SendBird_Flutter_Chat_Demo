@@ -9,13 +9,13 @@ abstract class BaseAuth {
   Future<bool> checkLogin();
   // intialize
   void initialize();
+  // set UserId
+  void setUserId(String userId);
   // sign in
   // ? throws error when sign in Unsuccessful
-  void signIn(String userId);
+  Future<void> signIn();
   // logout User
   void signOut();
-  // disconnect from application
-  void disconnect();
   // login user
   void connect({required String userId, required String accesstoken});
   // update profile
@@ -33,6 +33,7 @@ class AuthenticationController extends GetxController implements BaseAuth {
   late User _user;
   //TODO Include SharedPreference HERE
 
+  //TODO sendbird connect in root page
   // Check if user is logged in
   @override
   Future<bool> checkLogin() async {
@@ -66,12 +67,12 @@ class AuthenticationController extends GetxController implements BaseAuth {
   }
 
   @override
-  void signIn(String userId) async {
+  Future<void> signIn() async {
     try {
       SharedPreferences _sharedPreferences =
           await SharedPreferences.getInstance();
-      _sharedPreferences.setString("userId", userId);
-      _user = await _sendbird.connect(userId);
+      String? _userId = _sharedPreferences.getString("userId");
+      _user = await _sendbird.connect(_userId!);
 
       //TODO Create Logger
       print("Sign In Successful");
@@ -81,6 +82,7 @@ class AuthenticationController extends GetxController implements BaseAuth {
       print("Sign In Unsuccessful");
       throw e;
     }
+    update();
   }
 
   // Log Out User
@@ -89,6 +91,7 @@ class AuthenticationController extends GetxController implements BaseAuth {
     SharedPreferences _sharedPreferences =
         await SharedPreferences.getInstance();
     _sharedPreferences.setString("userId", "");
+    _sendbird.disconnect();
     update();
   }
 
@@ -97,17 +100,6 @@ class AuthenticationController extends GetxController implements BaseAuth {
 
   @override
   User? get user => _sendbird.currentUser;
-
-  /*
-    A user should be disconnected from the Sendbird server 
-    when they no longer need to receive messages from an online state.
-    However, the user will still receive push notifications for new
-    messages from group channels they've joined.
-  */
-  @override
-  void disconnect() {
-    _sendbird.disconnect();
-  }
 
   // Logging User to Sendbird application
   @override
@@ -131,6 +123,18 @@ class AuthenticationController extends GetxController implements BaseAuth {
       print("Profile Updated!");
     } catch (e) {
       //TODO Create Logger
+      print(e);
+    }
+  }
+
+  @override
+  void setUserId(String userId) async {
+    try {
+      SharedPreferences _sharedPreferences =
+          await SharedPreferences.getInstance();
+      _sharedPreferences.setString("userId", userId);
+      print("Set UserId Sucessful");
+    } catch (e) {
       print(e);
     }
   }

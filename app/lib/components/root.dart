@@ -34,11 +34,20 @@ class _RootRouteState extends State<RootRoute> {
 
   @override
   void didChangeDependencies() {
+    // check login if logged in
     _authentication.checkLogin().then((isLoggedIn) => {
-          _authStatus =
-              isLoggedIn == true ? AuthStatus.signedIn : AuthStatus.notSignedIn,
+          // connect user
+          if (isLoggedIn)
+            {
+              _authentication.signIn(),
+            },
+
+          setState(() {
+            _authStatus = isLoggedIn == true
+                ? AuthStatus.signedIn
+                : AuthStatus.notSignedIn;
+          }),
           print(_authStatus),
-          setState(() {}),
         });
 
     super.didChangeDependencies();
