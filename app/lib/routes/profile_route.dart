@@ -20,9 +20,7 @@ class _ProfileRouteState extends State<ProfileRoute> {
   @override
   void initState() {
     _authentication = Get.find<AuthenticationController>();
-    _nickName = _authentication.user!.nickname;
-    //! TODO REMOVE
-    print(_authentication.user);
+    _nickName = _authentication.user!.nickname; //TODO Throws Error CHECK!
     super.initState();
   }
 
@@ -140,10 +138,10 @@ class _ProfileRouteState extends State<ProfileRoute> {
                   try {
                     _authentication.signOut();
                     //GET OFF AND REDIRECT TO ROOT PAGE
-                    Get.offAndToNamed("/RootRoute");
+                    Get.offAllNamed("/RootRoute");
                   } catch (e) {
-                    // _auth.signIn throws error when loggin unsuccessful
-
+                    //TODO Create Logger
+                    print(e);
                   }
                 },
               ),

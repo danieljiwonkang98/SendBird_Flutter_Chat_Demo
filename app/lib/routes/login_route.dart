@@ -59,12 +59,17 @@ class _LoginRouteState extends State<LoginRoute> {
                   try {
                     FocusScope.of(context).unfocus();
                     if (_userIdController.text != "") {
-                      _auth.signIn(_userIdController.text);
-                      print(_auth.user);
+                      _auth
+                        ..setUserId(_userIdController.text)
+                        ..signIn().whenComplete(() {
+                          //! TODO REMOVE BELOW
+                          print(_auth.user);
+                          widget.onSignedIn();
+                          Get.offAndToNamed("/RootRoute");
+                        });
 
                       //GET OFF AND REDIRECT TO ROOT PAGE
-                      widget.onSignedIn();
-                      Get.offAndToNamed("/RootRoute");
+
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
@@ -79,7 +84,7 @@ class _LoginRouteState extends State<LoginRoute> {
                   }
                 },
               ),
-              const SizedBox(height: 150)
+              const SizedBox(height: 100)
             ],
           ),
         ),
