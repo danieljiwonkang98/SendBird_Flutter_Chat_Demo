@@ -93,7 +93,7 @@ class _CreateChannelRouteState extends State<CreateChannelRoute> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    const SizedBox(height: 100),
+                    const SizedBox(height: 50),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 80,
@@ -111,7 +111,7 @@ class _CreateChannelRouteState extends State<CreateChannelRoute> {
                             UserType.member, _addMemberController.text);
                       },
                     ),
-                    const SizedBox(height: 14),
+                    const SizedBox(height: 28),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 80,
@@ -138,7 +138,7 @@ class _CreateChannelRouteState extends State<CreateChannelRoute> {
               onTap: () {
                 _channel.createGroupChannel(
                     userIds: _memberlist, operatorUserIds: _moderatorlist);
-                Get.back();
+                Get.offAllNamed("/HomeRoute");
               },
             ),
             const SizedBox(
