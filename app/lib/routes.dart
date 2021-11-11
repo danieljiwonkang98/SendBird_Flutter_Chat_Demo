@@ -1,4 +1,5 @@
 import 'package:app/bindings/root_binding.dart';
+import 'package:app/routes/chatroom_route.dart';
 import 'package:app/routes/create_channel_route.dart';
 import 'package:app/routes/home_route.dart';
 import 'package:app/routes/profile_route.dart';
@@ -22,5 +23,9 @@ final List<GetPage> routes = [
   GetPage(
     name: "/CreateChannelRoute",
     page: () => const CreateChannelRoute(),
+  ),
+  GetPage(
+    name: "/ChatRoomRoute",
+    page: () => const ChatRoomRoute(),
   ),
 ];
