@@ -1,5 +1,7 @@
+import 'package:app/controllers/channel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:sendbird_sdk/core/channel/group/group_channel.dart';
+import 'package:get/get.dart';
 
 class ChannelCard extends StatefulWidget {
   final List<GroupChannel> groupChannel;
@@ -13,6 +15,14 @@ class ChannelCard extends StatefulWidget {
 }
 
 class _ChannelCardState extends State<ChannelCard> {
+  late BaseChannel _channel;
+
+  @override
+  void initState() {
+    _channel = Get.find<ChannelController>();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -22,7 +32,9 @@ class _ChannelCardState extends State<ChannelCard> {
           padding: EdgeInsets.symmetric(horizontal: widget.horizontalPadding),
           child: GestureDetector(
             onTap: () {
-              //TODO Enter Channel Room
+              _channel.setCurrentGroupChannel(widget.groupChannel[index]);
+              Get.toNamed("/ChatRoomRoute",
+                  arguments: [widget.groupChannel[index]]);
             },
             child: Card(
               child: ListTile(

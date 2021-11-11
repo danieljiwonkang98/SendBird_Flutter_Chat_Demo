@@ -10,18 +10,24 @@ class InputField extends StatefulWidget {
   final double paddingHorizontal;
   final Icon? trailingIcon;
   final Function? trailingFunction;
+  final bool isExpand;
+  final int maxLine;
+  final int minLine;
 
-  const InputField({
-    Key? key,
-    required this.textEditingController,
-    this.label,
-    this.height,
-    this.width = double.infinity,
-    this.paddingHorizontal = 20,
-    this.hintText,
-    this.trailingIcon,
-    this.trailingFunction,
-  }) : super(key: key);
+  const InputField(
+      {Key? key,
+      required this.textEditingController,
+      this.label,
+      this.height,
+      this.width = double.infinity,
+      this.paddingHorizontal = 20,
+      this.hintText,
+      this.trailingIcon,
+      this.trailingFunction,
+      this.isExpand = false,
+      this.minLine = 1,
+      this.maxLine = 1})
+      : super(key: key);
 
   @override
   _InputFieldState createState() => _InputFieldState();
@@ -39,6 +45,9 @@ class _InputFieldState extends State<InputField> {
           children: [
             Flexible(
               child: TextField(
+                minLines: widget.minLine,
+                maxLines: widget.maxLine,
+                expands: widget.isExpand,
                 style: const TextStyle(color: ThemeColors.primaryLight),
                 controller: widget.textEditingController,
                 decoration: InputDecoration(
