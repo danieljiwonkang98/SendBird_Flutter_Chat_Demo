@@ -48,7 +48,7 @@ class AuthenticationController extends GetxController implements BaseAuth {
         _isSigned = false;
       } else {
         _isSigned = true;
-        _sendbird.connect(_userId);
+        _sendbird.connect(_userId, accessToken: dotenv.env["MASTER_API_TOKEN"]);
       }
     } catch (e) {
       //TODO Create Logger
