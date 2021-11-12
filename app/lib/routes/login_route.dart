@@ -26,9 +26,6 @@ class _LoginRouteState extends State<LoginRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Sendbird Login"),
-      ),
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () {

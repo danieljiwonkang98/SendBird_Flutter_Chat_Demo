@@ -57,10 +57,11 @@ class _InputFieldState extends State<InputField> {
                       borderSide: BorderSide(color: ThemeColors.primaryLight),
                     ),
                     hintText: widget.hintText,
-                    hintStyle: const TextStyle(color: ThemeColors.primaryLight),
+                    hintStyle:
+                        const TextStyle(color: ThemeColors.primaryLight2),
                     labelText: widget.label,
                     labelStyle:
-                        const TextStyle(color: ThemeColors.primaryLight)),
+                        const TextStyle(color: ThemeColors.primaryLight2)),
               ),
             ),
             widget.trailingIcon != null
