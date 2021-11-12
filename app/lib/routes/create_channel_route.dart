@@ -136,9 +136,12 @@ class _CreateChannelRouteState extends State<CreateChannelRoute> {
               textLabel: "Create Room",
               paddingHorizontal: 50,
               onTap: () {
-                _channel.createGroupChannel(
-                    userIds: _memberlist, operatorUserIds: _moderatorlist);
-                Get.offAllNamed("/HomeRoute");
+                _channel
+                    .createGroupChannel(
+                        userIds: _memberlist, operatorUserIds: _moderatorlist)
+                    .then(
+                      (_) => Get.back(),
+                    );
               },
             ),
             const SizedBox(

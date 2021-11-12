@@ -8,11 +8,14 @@ abstract class BaseChannel {
   // Send Message
   void sendMessage(String message);
 
+  // Delete Message
+  Future<void> deleteMessage(int messageId);
+
   // Get Previous Messages
   Future<List<BaseMessage>?> retrievePreviousMessages(String channelURL);
 
   // Creates Group Channel
-  void createGroupChannel(
+  Future<void> createGroupChannel(
       {required List<String> userIds, required List<String> operatorUserIds});
 
   // set current selected group channel
@@ -106,6 +109,15 @@ class ChannelController extends GetxController implements BaseChannel {
     } catch (e) {
       print(e);
       // Handle error.
+    }
+  }
+
+  @override
+  Future<void> deleteMessage(int messageId) async {
+    try {
+      await _currentChannel.deleteMessage(messageId);
+    } catch (e) {
+      // Handle exception.
     }
   }
 }

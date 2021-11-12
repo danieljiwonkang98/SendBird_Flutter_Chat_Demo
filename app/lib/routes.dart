@@ -14,7 +14,7 @@ final List<GetPage> routes = [
       transition: Transition.noTransition),
   GetPage(
     name: "/HomeRoute",
-    page: () => const HomeRoute(),
+    page: () => HomeRoute(),
   ),
   GetPage(
     name: "/ProfileRoute",
@@ -26,6 +26,6 @@ final List<GetPage> routes = [
   ),
   GetPage(
     name: "/ChatRoomRoute",
-    page: () => const ChatRoomRoute(),
+    page: () => ChatRoomRoute(),
   ),
 ];

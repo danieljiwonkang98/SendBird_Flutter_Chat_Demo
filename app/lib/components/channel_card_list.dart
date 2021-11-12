@@ -1,20 +1,23 @@
 import 'package:app/controllers/channel_controller.dart';
+import 'package:app/routes/home_route.dart';
 import 'package:flutter/material.dart';
 import 'package:sendbird_sdk/core/channel/group/group_channel.dart';
 import 'package:get/get.dart';
 
-class ChannelCard extends StatefulWidget {
+class ChannelCardList extends StatefulWidget {
   final List<GroupChannel> groupChannel;
   final double horizontalPadding;
-  const ChannelCard(
-      {Key? key, required this.groupChannel, this.horizontalPadding = 20})
-      : super(key: key);
+  const ChannelCardList({
+    Key? key,
+    required this.groupChannel,
+    this.horizontalPadding = 20,
+  }) : super(key: key);
 
   @override
   _ChannelCardState createState() => _ChannelCardState();
 }
 
-class _ChannelCardState extends State<ChannelCard> {
+class _ChannelCardState extends State<ChannelCardList> {
   late BaseChannel _channel;
 
   @override
@@ -34,7 +37,10 @@ class _ChannelCardState extends State<ChannelCard> {
             onTap: () {
               _channel.setCurrentGroupChannel(widget.groupChannel[index]);
               Get.toNamed("/ChatRoomRoute",
-                  arguments: [widget.groupChannel[index]]);
+                      arguments: [widget.groupChannel[index]])!
+                  .then(
+                (_) => HomeRoute.globalKey.currentState!.refreshPage(),
+              );
             },
             child: Card(
               child: ListTile(

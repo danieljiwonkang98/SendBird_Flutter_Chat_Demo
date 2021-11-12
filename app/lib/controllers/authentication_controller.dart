@@ -19,7 +19,7 @@ abstract class BaseAuth {
   // login user
   void connect({required String userId, required String accesstoken});
   // update profile
-  void updateProfile({String? nickName, String? imgUrl});
+  Future<void> updateProfile({String? nickName, String? imgUrl});
   // check if user is logged in
   bool get isSigned;
   // get current user
@@ -114,10 +114,10 @@ class AuthenticationController extends GetxController implements BaseAuth {
 
   // Updates User's Nickname and Profile Image
   @override
-  void updateProfile({String? nickName, String? imgUrl}) {
+  Future<void> updateProfile({String? nickName, String? imgUrl}) async {
     //TODO Include Profile ImgURL & ImgFile
     try {
-      _sendbird.updateCurrentUserInfo(
+      await _sendbird.updateCurrentUserInfo(
         nickname: nickName,
       );
       print("Profile Updated!");

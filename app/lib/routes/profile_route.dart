@@ -20,14 +20,13 @@ class _ProfileRouteState extends State<ProfileRoute> {
   @override
   void initState() {
     _authentication = Get.find<AuthenticationController>();
-    _nickName = _authentication.user!.nickname; //TODO Throws Error CHECK!
+    updateNickName();
     super.initState();
   }
 
-  @override
-  void didUpdateWidget(covariant ProfileRoute oldWidget) {
+  void updateNickName() {
     _nickName = _authentication.user!.nickname;
-    super.didUpdateWidget(oldWidget);
+    setState(() {});
   }
 
   @override
@@ -103,8 +102,9 @@ class _ProfileRouteState extends State<ProfileRoute> {
                 onTap: () {
                   try {
                     if (_nameController.text != "") {
-                      _authentication.updateProfile(
-                          nickName: _nameController.text);
+                      _authentication
+                          .updateProfile(nickName: _nameController.text)
+                          .then((value) => updateNickName());
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           backgroundColor: ThemeColors.primary,
