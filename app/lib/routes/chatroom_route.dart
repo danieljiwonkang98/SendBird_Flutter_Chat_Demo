@@ -1,4 +1,6 @@
 import 'package:app/components/inputfield.dart';
+import 'package:app/components/message_card.dart';
+import 'package:app/controllers/authentication_controller.dart';
 import 'package:app/controllers/channel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:sendbird_sdk/core/channel/group/group_channel.dart';
@@ -6,7 +8,8 @@ import 'package:get/get.dart';
 import 'package:sendbird_sdk/core/message/base_message.dart';
 
 class ChatRoomRoute extends StatefulWidget {
-  const ChatRoomRoute({Key? key}) : super(key: key);
+  static final GlobalKey<_ChatRoomRouteState> globalKey = GlobalKey();
+  ChatRoomRoute({Key? key}) : super(key: globalKey);
 
   @override
   _ChatRoomRouteState createState() => _ChatRoomRouteState();
@@ -17,6 +20,7 @@ class _ChatRoomRouteState extends State<ChatRoomRoute> {
   late GroupChannel _groupChannel;
   final TextEditingController _messageController = TextEditingController();
   late BaseChannel _channel;
+  late BaseAuth _auth;
 
   Future<List<BaseMessage>?> _getMessages() async {
     setState(() {});
@@ -24,8 +28,11 @@ class _ChatRoomRouteState extends State<ChatRoomRoute> {
     return await _channel.retrievePreviousMessages(_groupChannel.channelUrl);
   }
 
+  void refreshPage() => setState(() {});
+
   @override
   void initState() {
+    _auth = Get.find<AuthenticationController>();
     _channel = Get.find<ChannelController>();
     _groupChannel = Get.arguments[0];
     super.initState();
@@ -72,10 +79,11 @@ class _ChatRoomRouteState extends State<ChatRoomRoute> {
                       return ListView.builder(
                           itemCount: messages.data.length,
                           itemBuilder: (context, index) {
-                            return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 8),
-                                child: Text(messages.data[index].message));
+                            return MessageCard(
+                              message: messages.data[index].message,
+                              userName: messages.data[index].sender.nickname,
+                              messageId: messages.data[index].messageId,
+                            );
                           });
                     }
                   } else {

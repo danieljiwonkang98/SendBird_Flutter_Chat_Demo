@@ -57,7 +57,7 @@ class _RootRouteState extends State<RootRoute> {
   Widget build(BuildContext context) {
     switch (_authStatus) {
       case AuthStatus.signedIn:
-        return const HomeRoute();
+        return HomeRoute();
       case AuthStatus.notSignedIn:
         return LoginRoute(
           onSignedIn: _signInCallBack,

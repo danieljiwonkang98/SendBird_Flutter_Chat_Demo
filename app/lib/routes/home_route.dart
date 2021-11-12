@@ -1,4 +1,4 @@
-import 'package:app/components/channel_card.dart';
+import 'package:app/components/channel_card_list.dart';
 import 'package:app/controllers/authentication_controller.dart';
 import 'package:app/controllers/channel_controller.dart';
 import 'package:app/themes/colors.dart';
@@ -7,7 +7,8 @@ import 'package:get/get.dart';
 import 'package:sendbird_sdk/core/channel/group/group_channel.dart';
 
 class HomeRoute extends StatefulWidget {
-  const HomeRoute({Key? key}) : super(key: key);
+  static final GlobalKey<_HomeRouteState> globalKey = GlobalKey();
+  HomeRoute({Key? key}) : super(key: globalKey);
 
   @override
   _HomeRouteState createState() => _HomeRouteState();
@@ -21,6 +22,8 @@ class _HomeRouteState extends State<HomeRoute> {
   Future<List<GroupChannel>?> _getChannel() async {
     return await _channel.retrieveChannelList();
   }
+
+  void refreshPage() => setState(() {});
 
   @override
   void initState() {
@@ -43,7 +46,8 @@ class _HomeRouteState extends State<HomeRoute> {
         title: const Text("Home"),
         actions: [
           GestureDetector(
-            onTap: () => Get.toNamed("ProfileRoute"),
+            onTap: () =>
+                Get.toNamed("ProfileRoute")!.then((_) => setState(() {})),
             child: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               //TODO Include Profile Img Icon
@@ -65,7 +69,9 @@ class _HomeRouteState extends State<HomeRoute> {
                 child: Text("Channel Empty :("),
               );
             } else {
-              return ChannelCard(groupChannel: snapshot.data);
+              return ChannelCardList(
+                groupChannel: snapshot.data,
+              );
             }
           } else {
             return const Center(
@@ -75,7 +81,8 @@ class _HomeRouteState extends State<HomeRoute> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.toNamed("/CreateChannelRoute"),
+        onPressed: () =>
+            Get.toNamed("/CreateChannelRoute")!.then((_) => setState(() {})),
         child: const Icon(Icons.add),
         backgroundColor: ThemeColors.primary,
         splashColor: ThemeColors.primaryLight,
