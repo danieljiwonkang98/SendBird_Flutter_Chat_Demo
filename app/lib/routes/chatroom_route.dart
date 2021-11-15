@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app/components/inputfield.dart';
 import 'package:app/components/message_card.dart';
 import 'package:app/controllers/authentication_controller.dart';
@@ -6,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:sendbird_sdk/core/channel/group/group_channel.dart';
 import 'package:get/get.dart';
 import 'package:sendbird_sdk/core/message/base_message.dart';
+import 'package:file_picker/file_picker.dart';
 
 class ChatRoomRoute extends StatefulWidget {
   static final GlobalKey<_ChatRoomRouteState> globalKey = GlobalKey();
@@ -80,9 +83,7 @@ class _ChatRoomRouteState extends State<ChatRoomRoute> {
                           itemCount: messages.data.length,
                           itemBuilder: (context, index) {
                             return MessageCard(
-                              message: messages.data[index].message,
-                              userName: messages.data[index].sender.nickname,
-                              messageId: messages.data[index].messageId,
+                              messageData: messages.data[index],
                             );
                           });
                     }
@@ -98,6 +99,25 @@ class _ChatRoomRouteState extends State<ChatRoomRoute> {
               textEditingController: _messageController,
               paddingHorizontal: 28,
               maxLine: 3,
+              leadingPadding: 0,
+              leadingWidget: Padding(
+                  padding: const EdgeInsets.only(right: 14),
+                  child: Image.asset('assets/icon/add_file.png',
+                      fit: BoxFit.cover, height: 30)),
+              leadingFunction: () async {
+                //Pick File
+                FilePickerResult? result =
+                    await FilePicker.platform.pickFiles();
+
+                if (result != null) {
+                  File file = File(result.files.single.path!);
+                  //Send File
+                  _channel.sendFile(file);
+                } else {
+                  // User canceled the picker
+                }
+                setState(() {});
+              },
               trailingIcon: const Icon(Icons.send),
               trailingFunction: () {
                 _channel.sendMessage(_messageController.text);

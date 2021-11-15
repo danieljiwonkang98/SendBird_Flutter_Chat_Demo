@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sendbird_sdk/sendbird_sdk.dart';
 
@@ -7,6 +9,9 @@ abstract class BaseChannel {
 
   // Send Message
   void sendMessage(String message);
+
+  // Send File
+  void sendFile(File file);
 
   // Delete Message
   Future<void> deleteMessage(int messageId);
@@ -97,7 +102,8 @@ class ChannelController extends GetxController implements BaseChannel {
   @override
   void sendMessage(String message) {
     try {
-      final params = UserMessageParams(message: message);
+      final params = UserMessageParams(message: message)
+        ..customType = "message";
 
       final preMessage =
           _currentChannel.sendUserMessage(params, onCompleted: (message, err) {
@@ -118,6 +124,27 @@ class ChannelController extends GetxController implements BaseChannel {
       await _currentChannel.deleteMessage(messageId);
     } catch (e) {
       // Handle exception.
+    }
+  }
+
+  @override
+  void sendFile(File file) {
+    try {
+      final params = FileMessageParams.withFile(file, name: "file")
+        ..thumbnailSizes = [const Size(100, 100), const Size(200, 200)]
+        ..customType = "file";
+
+      final preMessage =
+          _currentChannel.sendFileMessage(params, onCompleted: (message, err) {
+        // A file message with detailed configuration is successfully sent to the channel.
+        // If error is null and message is sent successfully,
+      });
+
+      print("File Message Sent!");
+      //use preMessage to display the message before it is sent to the server.
+    } catch (e) {
+      print(e);
+      // Handle error.
     }
   }
 }

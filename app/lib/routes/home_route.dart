@@ -1,3 +1,4 @@
+import 'package:app/components/button.dart';
 import 'package:app/components/channel_card_list.dart';
 import 'package:app/controllers/authentication_controller.dart';
 import 'package:app/controllers/channel_controller.dart';
@@ -74,8 +75,21 @@ class _HomeRouteState extends State<HomeRoute> {
               );
             }
           } else {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Center(
+              child: Button(
+                textLabel: "Log Out",
+                paddingHorizontal: 50,
+                onTap: () {
+                  try {
+                    _authentication.signOut();
+                    //GET OFF AND REDIRECT TO ROOT PAGE
+                    Get.offAllNamed("/RootRoute");
+                  } catch (e) {
+                    //TODO Create Logger
+                    print(e);
+                  }
+                },
+              ),
             );
           }
         },

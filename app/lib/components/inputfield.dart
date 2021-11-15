@@ -8,26 +8,32 @@ class InputField extends StatefulWidget {
   final double? height;
   final double? width;
   final double paddingHorizontal;
+  final double leadingPadding;
+  final Widget? leadingWidget;
+  final Function? leadingFunction;
   final Icon? trailingIcon;
   final Function? trailingFunction;
   final bool isExpand;
   final int maxLine;
   final int minLine;
 
-  const InputField(
-      {Key? key,
-      required this.textEditingController,
-      this.label,
-      this.height,
-      this.width = double.infinity,
-      this.paddingHorizontal = 20,
-      this.hintText,
-      this.trailingIcon,
-      this.trailingFunction,
-      this.isExpand = false,
-      this.minLine = 1,
-      this.maxLine = 1})
-      : super(key: key);
+  const InputField({
+    Key? key,
+    required this.textEditingController,
+    this.label,
+    this.height,
+    this.width = double.infinity,
+    this.paddingHorizontal = 20,
+    this.hintText,
+    this.leadingWidget,
+    this.leadingFunction,
+    this.trailingIcon,
+    this.trailingFunction,
+    this.isExpand = false,
+    this.minLine = 1,
+    this.maxLine = 1,
+    this.leadingPadding = 15,
+  }) : super(key: key);
 
   @override
   _InputFieldState createState() => _InputFieldState();
@@ -43,6 +49,19 @@ class _InputFieldState extends State<InputField> {
         width: widget.width,
         child: Row(
           children: [
+            widget.leadingWidget != null
+                ? GestureDetector(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: widget.leadingPadding),
+                      child: widget.leadingWidget,
+                    ),
+                    onTap: () => {
+                      if (widget.leadingFunction != null)
+                        widget.leadingFunction!()
+                    },
+                  )
+                : Container(),
             Flexible(
               child: TextField(
                 minLines: widget.minLine,
